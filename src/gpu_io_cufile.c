@@ -143,12 +143,18 @@ gpu_io_deregister_fd(gpu_io_file_t **file)
 /*
  * cuFileRead/Write return:
  *   >= 0 : bytes transferred
- *   < 0  : negative CUfileOpError_t.  Use CUFILE_ERRSTR(-rc).
+ *   == -1: POSIX error in errno
+ *   < -1 : negative CUfileOpError_t. Use CUFILE_ERRSTR(-rc).
  */
 static void
 cufile_xfer_decode(gpu_io_result_t *res)
 {
-    if (res->nbytes < 0) {
+    if (res->nbytes == -1) {
+        int saved_errno = errno;
+        res->status.ok = 0;
+        res->status.errnum = saved_errno;
+        res->status.message = strerror(saved_errno);
+    } else if (res->nbytes < -1) {
         int raw_err = (int) -res->nbytes;
 
         res->status.ok = 0;
