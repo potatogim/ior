@@ -61,8 +61,6 @@ extern "C" void generate_memory_pattern_gpu(char * buf, size_t bytes, int rand_s
 
 extern "C" void update_write_memory_pattern_gpu(uint64_t item, char * buf, size_t bytes, int rand_seed, int rank, ior_dataPacketType_e dataPacketType){
   // nothing to do for dataPacketType == DATA_TIMESTAMP, i.e., won't be called for this parameter
-  size_t blocks = (bytes+2047)/2048;
-  size_t threads = 256;
 }
 
 extern "C" int verify_memory_pattern_gpu(uint64_t item, char * buffer, size_t bytes, int rand_seed, int pretendRank, ior_dataPacketType_e dataPacketType){
