@@ -212,6 +212,10 @@ int verify_memory_pattern(uint64_t item, char * buffer, size_t bytes, int rand_s
 #ifdef HAVE_GPU
   if(type == IOR_MEMORY_TYPE_GPU_DEVICE_ONLY || type == IOR_MEMORY_TYPE_GPU_MANAGED_CHECK_GPU){
     error = verify_memory_pattern_gpu(item, buffer, bytes, rand_seed, pretendRank, dataPacketType);
+    if (error < 0) {
+      ERR("GPU verification could not run: runtime failure or unsupported packet type/size");
+      return 1;
+    }
     return error;
   }
 #endif
