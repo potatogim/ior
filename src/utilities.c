@@ -17,14 +17,9 @@
 #endif
 
 #ifdef HAVE_GETCPU_SYSCALL
-#  define _GNU_SOURCE
 #  include <unistd.h>
 #  include <sys/syscall.h>
 #endif
-
-#ifdef __linux__
-#  define _GNU_SOURCE            /* Needed for O_DIRECT in fcntl */
-#endif                           /* __linux__ */
 
 #include <stdarg.h>
 #include <stdio.h>

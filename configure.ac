@@ -38,6 +38,7 @@ AX_PROG_CC_MPI(,,[
 ])
 
 AC_PROG_RANLIB
+AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 
 # Checks for libraries.
@@ -311,7 +312,8 @@ AC_CHECK_FUNCS
 # Check for system capabilities
 AC_SYS_LARGEFILE
 
-AC_DEFINE([_XOPEN_SOURCE], [700], [C99 compatibility])
+# Use the guarded template supplied by AC_USE_SYSTEM_EXTENSIONS.
+AC_DEFINE([_XOPEN_SOURCE], [700])
 
 # Check for lustre availability
 AC_ARG_WITH([lustre],
@@ -726,7 +728,6 @@ AC_COMPILE_IFELSE(
 
 AC_COMPILE_IFELSE(
   [AC_LANG_SOURCE([[
-      #define _GNU_SOURCE
       #include <unistd.h>
       #include <sys/syscall.h>
       unsigned long GetProcessorAndCore(int *chip, int *core){
