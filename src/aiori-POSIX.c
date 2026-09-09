@@ -765,7 +765,7 @@ static IOR_offset_t POSIX_Xfer(int access, aiori_fd_t *file, IOR_size_t * buffer
                         if(o->gpuDirect){
                           gpu_io_result_t gio_res;
                           char errbuf[256];
-                          gio_res = gpu_io_write(pfd->gpu_file, ptr, remaining,
+                          gio_res = gpu_io_write(pfd->gpu_file, buffer, remaining,
                                                   offset + mem_offset, mem_offset);
                           rc = gio_res.nbytes;
                           if(rc < 0){
@@ -795,7 +795,7 @@ static IOR_offset_t POSIX_Xfer(int access, aiori_fd_t *file, IOR_size_t * buffer
                         if(o->gpuDirect){
                           gpu_io_result_t gio_res;
                           char errbuf[256];
-                          gio_res = gpu_io_read(pfd->gpu_file, ptr, remaining,
+                          gio_res = gpu_io_read(pfd->gpu_file, buffer, remaining,
                                                  offset + mem_offset, mem_offset);
                           rc = gio_res.nbytes;
                           if(rc < 0){
