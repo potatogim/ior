@@ -939,8 +939,28 @@ IOR_offset_t POSIX_GetFileSize(aiori_mod_opt_t * test, char *testFileName)
         return (aggFileSizeFromStat);
 }
 
+#ifdef HAVE_GPU_DIRECT
+static unsigned int posix_init_count;
+#endif
+
 void POSIX_Initialize(aiori_mod_opt_t * options){
+#ifdef HAVE_GPU_DIRECT
+    ++posix_init_count;
+#endif
 }
 
 void POSIX_Finalize(aiori_mod_opt_t * options){
+#ifdef HAVE_GPU_DIRECT
+    gpu_io_status_t st;
+    char errbuf[256];
+
+    if (posix_init_count == 0)
+        return;
+    if (--posix_init_count != 0)
+        return;
+    st = gpu_io_shutdown();
+    if (!gpu_io_status_ok(st))
+        ERRF("GPU I/O shutdown failed: %s",
+             gpu_io_strerror(st, errbuf, sizeof(errbuf)));
+#endif
 }
