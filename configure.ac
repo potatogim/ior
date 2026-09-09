@@ -278,8 +278,9 @@ AS_IF([test "x$gpu_direct_backend" = xhipfile], [
                 HIPFILE_LDFLAGS="-L$hipfile_prefix/lib -L$hipfile_prefix/lib64 -Wl,--enable-new-dtags -Wl,-rpath=$hipfile_prefix/lib:$hipfile_prefix/lib64"
         ])
         save_CPPFLAGS="$CPPFLAGS"; save_LDFLAGS="$LDFLAGS"; save_LIBS="$LIBS"
-        CPPFLAGS="$CPPFLAGS $HIPFILE_CPPFLAGS"
-        LDFLAGS="$LDFLAGS $HIPFILE_LDFLAGS"
+        CPPFLAGS="$CPPFLAGS $HIP_CPPFLAGS $HIPFILE_CPPFLAGS"
+        LDFLAGS="$LDFLAGS $HIP_LDFLAGS $HIPFILE_LDFLAGS"
+        LIBS="$HIP_LIBS $LIBS"
         AC_CHECK_HEADERS([hipfile.h], [], [
                 AC_MSG_FAILURE([hipFile backend selected, but hipfile.h not found])
         ])
